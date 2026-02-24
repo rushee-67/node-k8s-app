@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout from GitHub') {
             steps {
-                git branch: 'master',
+                git branch: 'main',
                     url: 'https://github.com/rushee-67/node-k8s-app.git'
             }
         }
@@ -24,6 +24,18 @@ pipeline {
                 '''
             }
         }
+        
+        stage('Docker Login') {
+		    steps {
+			  withCredentials([usernamePassword(
+				credentialsId: 'dockerhub-creds',
+				usernameVariable: 'rs676',
+				passwordVariable: ';r.U2=/dMa/@=Cd'
+			  )]) {
+				sh 'echo $DOCKER_PASS | docker login -u 							$DOCKER_USER --password-stdin'
+			  }
+		    }
+		}
 
         stage('Push Docker Image') {
             steps {
