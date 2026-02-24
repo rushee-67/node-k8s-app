@@ -11,10 +11,16 @@ pipeline {
         }
 
         stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
+	    steps {
+		  sh '''
+		  export NVM_DIR="$HOME/.nvm"
+		  export PATH=$PATH:/home/user/.nvm/versions/node/v22.19.0/bin
+		  node -v
+		  npm -v
+		  npm install
+		  '''
+	    }
+	}
 
         stage('Build Docker Image') {
             steps {
